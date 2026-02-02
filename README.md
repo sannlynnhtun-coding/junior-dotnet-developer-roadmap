@@ -32,7 +32,7 @@
 
 ## 📡 SignalR & Real-time Features
 
-- [Build a Real-Time Chat App (SignalR, .NET 8 MVC)](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Build%20a%20Real-Time%20Chat%20App%20(SignalR%2C%20.NET%208%20MVC.md)
+- [Build a Real-Time Chat App - SignalR, .NET 8 MVC](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Build%20a%20Real-Time%20Chat%20App%20(SignalR%2C%20.NET%208%20MVC.md)
 - [Realtime Notification System](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Realtime%20Notification%20System.md)
 
 ## 🛠️ Middleware & Logging
