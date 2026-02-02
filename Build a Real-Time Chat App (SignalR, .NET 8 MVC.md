@@ -1,4 +1,4 @@
-# Build a Real-Time Chat App with ASP.NET Core SignalR (.NET 8 MVC)
+# Build a Real-Time Chat App with ASP.NET Core SignalR
 
 ---
 
