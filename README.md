@@ -19,6 +19,7 @@
 - [Using ADO.NET in ASP.NET Core Web API](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Using%20ADO.NET%20in%20ASP.NET%20Core%20Web%20API.md)
 - [Using Dapper in ASP.NET Core Web API](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Using%20Dapper%20in%20ASP.NET%20Core%20Web%20API.md)
 - [Using EF Core (DB First) in ASP.NET Core Web API](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Using%20EFCore%20in%20ASP.NET%20Core%20Web%20API.md)
+- [Result Pattern](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Result%20Pattern.md)
 
 ## 🏛️ ASP.NET Core MVC (Submit / AJAX)
 
