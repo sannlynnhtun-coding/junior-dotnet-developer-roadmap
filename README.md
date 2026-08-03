@@ -1,37 +1,18 @@
 # Junior .NET Developer Roadmap
 
-Follow the roadmap from top to bottom. Build a small project at each project milestone before moving on.
-
 ```mermaid
 flowchart TD
-    START([Start]) --> FOUNDATION["1. Developer Foundations<br/>Command line<br/>Git and GitHub<br/>Problem solving<br/>Debugging"]
-    FOUNDATION --> CSHARP["2. C# Fundamentals<br/>Types<br/>Control flow<br/>Methods<br/>Collections<br/>Exceptions<br/>LINQ"]
-    CSHARP --> OOP["3. Object-Oriented C#<br/>Classes<br/>Interfaces<br/>Generics<br/>SOLID basics<br/>Async/await"]
-    OOP --> PROJECT1["Project: Console Application"]
+    CONSOLE["Console App + Database<br/>.NET 8 Console App with<br/>Microsoft.Data.SqlClient<br/>.NET 8 Console App with Dapper<br/>.NET 8 Console App with EF Core<br/>Benefits of a Separate<br/>EF Core Database Library"]
+    FUNDAMENTALS["Fundamentals<br/>Class Library<br/>Understanding Async/Await<br/>in C# Console Applications<br/>N-Layered Architecture<br/>Implementing N-Layered Architecture<br/>in C# Console Applications"]
+    WEB_API["ASP.NET Core Web API<br/>Using ADO.NET<br/>Using Dapper<br/>Using EF Core - DB First<br/>Result Pattern<br/>IHttpClientFactory"]
+    MVC["ASP.NET Core MVC - Submit / AJAX<br/>CRUD with EF Core DB First - Submit<br/>CRUD with EF Core DB First - jQuery AJAX<br/>Data Passing Techniques<br/>Integrating AdminLTE v3"]
+    CHARTS["Charts and Visualization<br/>ApexCharts and HighCharts<br/>in ASP.NET Core MVC"]
+    SIGNALR["SignalR and Real-time Features<br/>Real-Time Chat App<br/>Realtime Notification System"]
+    MIDDLEWARE["Middleware and Logging<br/>ASP.NET Core Middleware<br/>Introduction to Logging<br/>ASP.NET Core Logging with Serilog"]
+    AUTH["Authentication and Authorization<br/>ASP.NET Core Cookie Authentication<br/>Role-Based Access Control - RBAC<br/>Static RBAC<br/>Dynamic RBAC"]
+    DEPLOY["Deploy<br/>Deploying ASP.NET Core<br/>Web Applications on IIS"]
 
-    PROJECT1 --> DATABASE["4. Databases and SQL<br/>Tables<br/>Relationships<br/>Joins<br/>CRUD<br/>Transactions"]
-    DATABASE --> DATA["5. Data Access in .NET<br/>ADO.NET<br/>Dapper<br/>EF Core<br/>Migrations<br/>LINQ queries"]
-    DATA --> PROJECT2["Project: Data-Driven Console App"]
-
-    PROJECT2 --> WEB["6. Web Fundamentals<br/>HTTP<br/>REST<br/>JSON<br/>HTML<br/>CSS<br/>JavaScript basics"]
-    WEB --> ASPNET["7. ASP.NET Core<br/>Dependency injection<br/>Configuration<br/>Middleware<br/>Logging"]
-    ASPNET --> TRACK{"Choose a starting track"}
-    TRACK --> API["Web API<br/>Controllers<br/>Validation<br/>OpenAPI"]
-    TRACK --> MVC["MVC<br/>Controllers<br/>Views<br/>Forms"]
-    API --> PROJECT3["Project: CRUD Web Application"]
-    MVC --> PROJECT3
-
-    PROJECT3 --> SECURITY["8. Security<br/>Authentication<br/>Authorization<br/>Cookies and JWT<br/>RBAC<br/>HTTPS"]
-    SECURITY --> QUALITY["9. Production Basics<br/>Testing<br/>Error handling<br/>Logging<br/>Git workflow<br/>Clean architecture basics"]
-    QUALITY --> OPTIONAL{"Choose as needed"}
-    OPTIONAL --> REALTIME["SignalR and Real-Time Features"]
-    OPTIONAL --> CHARTS["Charts and Visualization"]
-    REALTIME --> DEPLOY["10. Deployment<br/>Publish<br/>IIS<br/>Environment configuration"]
-    CHARTS --> DEPLOY
-    DEPLOY --> READY([Junior .NET Developer])
-
-    classDef milestone fill:#512bd4,color:#fff,stroke:#351c75,stroke-width:2px;
-    class PROJECT1,PROJECT2,PROJECT3,READY milestone;
+    CONSOLE --> FUNDAMENTALS --> WEB_API --> MVC --> CHARTS --> SIGNALR --> MIDDLEWARE --> AUTH --> DEPLOY
 ```
 
 ## Learning Resources
