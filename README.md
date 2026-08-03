@@ -4,29 +4,29 @@ Follow the roadmap from top to bottom. Build a small project at each project mil
 
 ```mermaid
 flowchart TD
-    START([Start]) --> FOUNDATION["1. Developer Foundations<br/>Command line · Git · GitHub<br/>Problem solving · Debugging"]
-    FOUNDATION --> CSHARP["2. C# Fundamentals<br/>Types · Control flow · Methods<br/>Collections · Exceptions · LINQ"]
-    CSHARP --> OOP["3. Object-Oriented C#<br/>Classes · Interfaces · Generics<br/>SOLID basics · Async/await"]
+    START([Start]) --> FOUNDATION["1. Developer Foundations<br/>Command line<br/>Git and GitHub<br/>Problem solving<br/>Debugging"]
+    FOUNDATION --> CSHARP["2. C# Fundamentals<br/>Types<br/>Control flow<br/>Methods<br/>Collections<br/>Exceptions<br/>LINQ"]
+    CSHARP --> OOP["3. Object-Oriented C#<br/>Classes<br/>Interfaces<br/>Generics<br/>SOLID basics<br/>Async/await"]
     OOP --> PROJECT1["Project: Console Application"]
 
-    PROJECT1 --> DATABASE["4. Databases and SQL<br/>Tables · Relationships · Joins<br/>CRUD · Transactions"]
-    DATABASE --> DATA["5. Data Access in .NET<br/>ADO.NET → Dapper → EF Core<br/>Migrations · LINQ queries"]
+    PROJECT1 --> DATABASE["4. Databases and SQL<br/>Tables<br/>Relationships<br/>Joins<br/>CRUD<br/>Transactions"]
+    DATABASE --> DATA["5. Data Access in .NET<br/>ADO.NET<br/>Dapper<br/>EF Core<br/>Migrations<br/>LINQ queries"]
     DATA --> PROJECT2["Project: Data-Driven Console App"]
 
-    PROJECT2 --> WEB["6. Web Fundamentals<br/>HTTP · REST · JSON<br/>HTML · CSS · JavaScript basics"]
-    WEB --> ASPNET["7. ASP.NET Core<br/>Dependency injection · Configuration<br/>Middleware · Logging"]
+    PROJECT2 --> WEB["6. Web Fundamentals<br/>HTTP<br/>REST<br/>JSON<br/>HTML<br/>CSS<br/>JavaScript basics"]
+    WEB --> ASPNET["7. ASP.NET Core<br/>Dependency injection<br/>Configuration<br/>Middleware<br/>Logging"]
     ASPNET --> TRACK{"Choose a starting track"}
-    TRACK --> API["Web API<br/>Controllers · Validation · OpenAPI"]
-    TRACK --> MVC["MVC<br/>Controllers · Views · Forms"]
+    TRACK --> API["Web API<br/>Controllers<br/>Validation<br/>OpenAPI"]
+    TRACK --> MVC["MVC<br/>Controllers<br/>Views<br/>Forms"]
     API --> PROJECT3["Project: CRUD Web Application"]
     MVC --> PROJECT3
 
-    PROJECT3 --> SECURITY["8. Security<br/>Authentication · Authorization<br/>Cookies/JWT · RBAC · HTTPS"]
-    SECURITY --> QUALITY["9. Production Basics<br/>Testing · Error handling · Logging<br/>Git workflow · Clean architecture basics"]
+    PROJECT3 --> SECURITY["8. Security<br/>Authentication<br/>Authorization<br/>Cookies and JWT<br/>RBAC<br/>HTTPS"]
+    SECURITY --> QUALITY["9. Production Basics<br/>Testing<br/>Error handling<br/>Logging<br/>Git workflow<br/>Clean architecture basics"]
     QUALITY --> OPTIONAL{"Choose as needed"}
     OPTIONAL --> REALTIME["SignalR and Real-Time Features"]
     OPTIONAL --> CHARTS["Charts and Visualization"]
-    REALTIME --> DEPLOY["10. Deployment<br/>Publish · IIS · Environment config"]
+    REALTIME --> DEPLOY["10. Deployment<br/>Publish<br/>IIS<br/>Environment configuration"]
     CHARTS --> DEPLOY
     DEPLOY --> READY([Junior .NET Developer])
 
