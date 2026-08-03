@@ -43,9 +43,12 @@
 - [Introduction to Logging](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Introduction%20to%20Logging.md)
 - [ASP.NET Core Logging with Serilog](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/ASP.NET%20Core%20Logging%20with%20Serilog.md)
 
-## 🔐 Authentication
+## 🔐 Authentication & Authorization
 
 - [ASP.NET Core Cookie Authentication](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/ASP.NET%20Core%20Cookie%20Authentication.md)
+- [Role-Based Access Control (RBAC)](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/RBAC.md)
+- [Static RBAC](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Static%20RBAC.md)
+- [Dynamic RBAC](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Dynamic%20RBAC.md)
 
 ## ☁ Deploy
 
