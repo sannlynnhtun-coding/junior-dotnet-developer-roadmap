@@ -1,4 +1,40 @@
-# dotnet-developer-roadmap
+# Junior .NET Developer Roadmap
+
+Follow the roadmap from top to bottom. Build a small project at each project milestone before moving on.
+
+```mermaid
+flowchart TD
+    START([Start]) --> FOUNDATION["1. Developer Foundations<br/>Command line · Git · GitHub<br/>Problem solving · Debugging"]
+    FOUNDATION --> CSHARP["2. C# Fundamentals<br/>Types · Control flow · Methods<br/>Collections · Exceptions · LINQ"]
+    CSHARP --> OOP["3. Object-Oriented C#<br/>Classes · Interfaces · Generics<br/>SOLID basics · Async/await"]
+    OOP --> PROJECT1["Project: Console Application"]
+
+    PROJECT1 --> DATABASE["4. Databases and SQL<br/>Tables · Relationships · Joins<br/>CRUD · Transactions"]
+    DATABASE --> DATA["5. Data Access in .NET<br/>ADO.NET → Dapper → EF Core<br/>Migrations · LINQ queries"]
+    DATA --> PROJECT2["Project: Data-Driven Console App"]
+
+    PROJECT2 --> WEB["6. Web Fundamentals<br/>HTTP · REST · JSON<br/>HTML · CSS · JavaScript basics"]
+    WEB --> ASPNET["7. ASP.NET Core<br/>Dependency injection · Configuration<br/>Middleware · Logging"]
+    ASPNET --> TRACK{"Choose a starting track"}
+    TRACK --> API["Web API<br/>Controllers · Validation · OpenAPI"]
+    TRACK --> MVC["MVC<br/>Controllers · Views · Forms"]
+    API --> PROJECT3["Project: CRUD Web Application"]
+    MVC --> PROJECT3
+
+    PROJECT3 --> SECURITY["8. Security<br/>Authentication · Authorization<br/>Cookies/JWT · RBAC · HTTPS"]
+    SECURITY --> QUALITY["9. Production Basics<br/>Testing · Error handling · Logging<br/>Git workflow · Clean architecture basics"]
+    QUALITY --> OPTIONAL{"Choose as needed"}
+    OPTIONAL --> REALTIME["SignalR and Real-Time Features"]
+    OPTIONAL --> CHARTS["Charts and Visualization"]
+    REALTIME --> DEPLOY["10. Deployment<br/>Publish · IIS · Environment config"]
+    CHARTS --> DEPLOY
+    DEPLOY --> READY([Junior .NET Developer])
+
+    classDef milestone fill:#512bd4,color:#fff,stroke:#351c75,stroke-width:2px;
+    class PROJECT1,PROJECT2,PROJECT3,READY milestone;
+```
+
+## Learning Resources
 
 ## 🗄️ Console App + Database (ADO.NET / Dapper / EF Core)
 
