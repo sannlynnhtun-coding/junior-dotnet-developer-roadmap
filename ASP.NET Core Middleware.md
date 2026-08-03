@@ -30,7 +30,29 @@ Middleware component တစ်ခုက pipeline ကို `short-circuit` လ�
 - **Logging:** Request နဲ့ response တွေနဲ့ ပတ်သက်တဲ့ အချက်အလက် (Data) တွေကို မှတ်တမ်းတင်ပေးပါတယ်.
 - **CORS (Cross-Origin Resource Sharing):** မတူညီတဲ့ domain တွေကနေ ကျွန်တော်တို့ရဲ့ application ကို ဝင်ရောက်သုံးစွဲခွင့်တွေကို စီမံခန့်ခွဲပေးပါတယ်.
 
-![image.png](attachment:7a0df710-b283-4283-b26d-d5a79f96701e:image.png)
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Error as Exception Handler
+    participant Transport as HSTS / HTTPS / Static Files
+    participant Routing as Routing / CORS
+    participant Security as Authentication / Authorization
+    participant Custom as Custom Middleware
+    participant Endpoint
+
+    Client->>Error: HTTP request
+    Error->>Transport: next()
+    Transport->>Routing: next()
+    Routing->>Security: next()
+    Security->>Custom: next()
+    Custom->>Endpoint: next()
+    Endpoint-->>Custom: HTTP response
+    Custom-->>Security: response logic
+    Security-->>Routing: response
+    Routing-->>Transport: response
+    Transport-->>Error: response
+    Error-->>Client: HTTP response
+```
 
 ### Implementing Custom Middleware
 
@@ -113,3 +135,99 @@ app.Run();
 ```
 
 `app.UseMiddleware<MyCustomMiddleware>();` ဆိုတဲ့ extension method ကို သုံးပြီး ကျွန်တော်တို့ရဲ့ class ကို pipeline ထဲကို ထည့်သွင်းပေးရမှာ ဖြစ်ပါတယ်။ ပြီးရင် ကျွန်တော်တို့ရဲ့ application ကို run တဲ့အခါ console မှာ request တစ်ခုချင်းစီအတွက် "Custom Middleware Class: Handling request." နဲ့ "Custom Middleware Class: Handling response." ဆိုတဲ့ log message တွေကို တွေ့ရမှာ ဖြစ်ပါတယ်.
+
+### Real-World Example: Request Duration Logging
+
+Production API တစ်ခုမှာ request တစ်ခုချင်းစီ ဘယ်လောက်ကြာသလဲဆိုတာ log ထားခြင်းက slow endpoint တွေကို ရှာဖွေရာမှာ အသုံးဝင်ပါတယ်။ `Program.cs` ထဲမှာ endpoint mapping မလုပ်ခင် အောက်ပါ middleware ကို ထည့်နိုင်ပါတယ်။
+
+```csharp
+using System.Diagnostics;
+
+app.Use(async (context, next) =>
+{
+    var startedAt = Stopwatch.GetTimestamp();
+
+    try
+    {
+        await next(context);
+    }
+    finally
+    {
+        app.Logger.LogInformation(
+            "HTTP {Method} {Path} completed in {ElapsedMilliseconds:F1} ms",
+            context.Request.Method,
+            context.Request.Path,
+            Stopwatch.GetElapsedTime(startedAt).TotalMilliseconds);
+    }
+});
+
+app.MapControllers();
+```
+
+`finally` ကို သုံးထားတဲ့အတွက် endpoint က exception throw လုပ်ရင်တောင် request duration ကို log ထားနိုင်ပါတယ်။ ဒီ middleware ရဲ့ အောက်မှာ register လုပ်ထားတဲ့ endpoint တွေနဲ့ middleware တွေရဲ့ ကြာချိန်ကို တိုင်းတာပေးမှာ ဖြစ်ပါတယ်။
+
+### Real-World Example: Safe Request and Response Data Logging
+
+Request/response body တစ်ခုလုံးကို log လုပ်ရင် password, token, cookie, payment data နဲ့ PII တွေ မတော်တဆ ပါသွားနိုင်ပါတယ်။ ဒါကြောင့် sensitive field တွေကို နာမည်နဲ့ လိုက်ဖယ်မယ့် blacklist ထက် log လုပ်ခွင့်ပြုထားတဲ့ field တွေကိုပဲ ရွေးထည့်တဲ့ allowlist ပုံစံကို သုံးပါမယ်။
+
+```csharp
+using System.Text.Json;
+
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+const string SafeRequestLog = "SafeRequestLog";
+const string SafeResponseLog = "SafeResponseLog";
+
+app.Use(async (context, next) =>
+{
+    context.Response.OnCompleted(() =>
+    {
+        context.Items.TryGetValue(SafeRequestLog, out var requestData);
+        context.Items.TryGetValue(SafeResponseLog, out var responseData);
+
+        app.Logger.LogInformation(
+            "HTTP {Method} {Endpoint} returned {StatusCode}; RequestData={RequestData}; ResponseData={ResponseData}",
+            context.Request.Method,
+            context.GetEndpoint()?.DisplayName ?? "unmatched",
+            context.Response.StatusCode,
+            JsonSerializer.Serialize(requestData),
+            JsonSerializer.Serialize(responseData));
+
+        return Task.CompletedTask;
+    });
+
+    await next(context);
+});
+
+app.MapPost("/orders", (CreateOrderRequest request, HttpContext context) =>
+{
+    context.Items[SafeRequestLog] = new
+    {
+        request.ProductId,
+        request.Quantity
+    };
+
+    var response = new OrderCreatedResponse(Guid.NewGuid(), "Pending");
+
+    context.Items[SafeResponseLog] = new
+    {
+        response.OrderId,
+        response.Status
+    };
+
+    return Results.Created($"/orders/{response.OrderId}", response);
+});
+
+app.Run();
+
+public sealed record CreateOrderRequest(
+    string ProductId,
+    int Quantity,
+    string CustomerEmail,
+    string PaymentToken);
+
+public sealed record OrderCreatedResponse(Guid OrderId, string Status);
+```
+
+ဒီ example မှာ request ထဲက `ProductId`, `Quantity` နဲ့ response ထဲက `OrderId`, `Status` ကိုပဲ log လုပ်ပါတယ်။ `CustomerEmail`, `PaymentToken`, request/response body အပြည့်အစုံ, query string, `Authorization` header နဲ့ cookies တွေကို log မလုပ်ပါဘူး။ Field အသစ်တိုးလာရင် safe ဖြစ်ကြောင်း review လုပ်ပြီးမှ allowlist object ထဲကို ထည့်သင့်ပါတယ်။
