@@ -3,7 +3,7 @@
 ```mermaid
 flowchart TD
     CONSOLE["Console App + Database<br/>.NET 8 Console App with<br/>Microsoft.Data.SqlClient<br/>.NET 8 Console App with Dapper<br/>.NET 8 Console App with EF Core<br/>Benefits of a Separate<br/>EF Core Database Library"]
-    FUNDAMENTALS["Fundamentals<br/>Class Library<br/>Understanding Async/Await<br/>in C# Console Applications<br/>N-Layered Architecture<br/>Implementing N-Layered Architecture<br/>in C# Console Applications"]
+    FUNDAMENTALS["Fundamentals<br/>Class Library<br/>Understanding Async/Await<br/>in C# Console Applications<br/>Dependency Injection<br/>N-Layered Architecture<br/>Implementing N-Layered Architecture<br/>in C# Console Applications"]
     WEB_API["ASP.NET Core Web API<br/>Using ADO.NET<br/>Using Dapper<br/>Using EF Core - DB First<br/>Result Pattern<br/>IHttpClientFactory"]
     MVC["ASP.NET Core MVC - Submit / AJAX<br/>CRUD with EF Core DB First - Submit<br/>CRUD with EF Core DB First - jQuery AJAX<br/>Data Passing Techniques<br/>Integrating AdminLTE v3"]
     CHARTS["Charts and Visualization<br/>ApexCharts and HighCharts<br/>in ASP.NET Core MVC"]
@@ -28,6 +28,7 @@ flowchart TD
 
 - [Class Library](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Class%20Library.md)
 - [Understanding Async/Await in C# Console Applications](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Understanding%20Async%20Await%20in%20C%23%20Console%20Applications.md)
+- [Dependency Injection](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Dependency%20Injection.md)
 - [N-Layered Architecture](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/N-Layered%20Architecture.md)
 - [Implementing N-Layered Architecture in C# Console Applications](https://github.com/sannlynnhtun-coding/dotnet-developer-roadmap/blob/main/Implementing%20N-Layered%20Architecture%20in%20C%23%20Console%20Applications.md)
 
