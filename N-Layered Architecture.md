@@ -1,365 +1,179 @@
 # N-Layered Architecture ဆိုတာဘာလဲ?
 
-N-Layered Architecture ဆိုသည်မှာ Software Application တစ်ခုကို **တာဝန် (Responsibility)** အလိုက် Layer (အလွှာ) များအဖြစ် ခွဲခြားရေးသားသည့် Software Architecture Pattern တစ်ခုဖြစ်ပါတယ်။
+**N-Layered Architecture** ဆိုတာ Application ကို တာဝန်အလိုက် Layer တွေခွဲပြီး ရေးသားတဲ့ Architecture Pattern ဖြစ်ပါတယ်။
 
-"N" ဆိုတာ Number ကို ကိုယ်စားပြုတာဖြစ်ပြီး Layer ဘယ်နှစ်ခုရှိမယ်ဆိုတာကို သတ်မှတ်ထားတာမဟုတ်ပါဘူး။
+ဒီ Project မှာ Layer သုံးခု သုံးပါမယ်။
 
-Project ရဲ့ အရွယ်အစားနဲ့ ရှုပ်ထွေးမှုပေါ်မူတည်ပြီး
+| Layer | တာဝန် |
+|---|---|
+| Presentation | Controller က Request လက်ခံပြီး Response ပြန်ပေးတယ် |
+| Business | Service က Business Logic လုပ်ပြီး Database Layer ကို ခေါ်တယ် |
+| Database | EF Core Database First နဲ့ Dapper ကို ထားတယ် |
 
-* 3 Layers
-* 4 Layers
-* 5 Layers
-* 6 Layers
-
-စသဖြင့် လိုအပ်သလို တိုးချဲ့နိုင်ပါတယ်။
-
-ဥပမာ...
-
-Project အသေးဆိုရင်
-
-* Presentation
-* Business
-* Data
-
-၃ လွှာနဲ့တင် လုံလောက်နိုင်ပါတယ်။
-
-ဒါပေမယ့် Enterprise Project ကြီးတွေမှာတော့
-
-* Presentation
-* API
-* Application
-* Domain
-* Infrastructure
-* Database
-
-လိုမျိုး Layer အများကြီး ခွဲရေးကြပါတယ်။
-
----
-
-## ဘာကြောင့် Layer ခွဲရေးရတာလဲ?
-
-Layer မခွဲဘဲ Project တစ်ခုလုံးကို File တစ်ခု၊ Folder တစ်ခုထဲမှာ ရေးမယ်ဆိုရင်
-
-* Code တွေ ရှုပ်ထွေးလာမယ်
-* Bug ရှာရခက်လာမယ်
-* Feature အသစ်ထည့်ရခက်လာမယ်
-* Developer များလာရင် အလုပ်လုပ်ရခက်လာမယ်
-
-ဒါကြောင့် တာဝန်အလိုက် Layer ခွဲပြီးရေးကြတာ ဖြစ်ပါတယ်။
-
-Layer ခွဲရေးထားခြင်းကြောင့်
-
-* Maintainability ကောင်းလာတယ်
-* Scalability ကောင်းလာတယ်
-* Reusability ရလာတယ်
-* Testing လုပ်ရလွယ်လာတယ်
-* Team နဲ့အလုပ်လုပ်ရ ပိုလွယ်လာတယ်
-
----
-
-# 3-Layered Architecture
-
-Beginner တွေအတွက် အများဆုံးတွေ့ရတဲ့ Architecture ကတော့ 3-Layered Architecture ဖြစ်ပါတယ်။
-
-ဒီ Architecture မှာ
-
-1. Presentation Layer
-2. Business Logic Layer
-3. Data Access Layer
-
-ဆိုပြီး Layer သုံးခု ပါဝင်ပါတယ်။
-
----
-
-# 1. Presentation Layer
-
-ဒီ Layer က User နဲ့ တိုက်ရိုက်ထိတွေ့တဲ့ Layer ဖြစ်ပါတယ်။
-
-User မြင်ရတဲ့
-
-* Website
-* Mobile App
-* Desktop Application
-
-အားလုံးက ဒီ Layer ထဲမှာ ပါဝင်ပါတယ်။
-
-ဥပမာ
-
-User က Login Button ကို နှိပ်လိုက်တယ်ဆိုပါစို့။
-
-Presentation Layer ရဲ့ အလုပ်က
-
-* Username ကိုယူတယ်
-* Password ကိုယူတယ်
-* Business Layer ကို ပို့ပေးတယ်
-
-ဒါပဲဖြစ်ပါတယ်။
-
-ဒီ Layer က
-
-Password မှန်မမှန်
-
-Database ထဲသွားစစ်တာ
-
-Business Logic တွက်တာ
-
-မလုပ်သင့်ပါဘူး။
-
----
-
-## Presentation Layer ရဲ့တာဝန်
-
-* User Input လက်ခံခြင်း
-* Result ပြသခြင်း
-* Error Message ပြခြင်း
-* Loading ပြခြင်း
-* Business Layer ကို Request ပို့ခြင်း
-
----
-
-# 2. Business Logic Layer (BLL)
-
-ဒီ Layer ကတော့ Application ရဲ့ ဦးနှောက်လို့ ပြောလို့ရပါတယ်။
-
-User က Request ပို့လာတာကို
-
-Business Rule အတိုင်း စဉ်းစားဆုံးဖြတ်ပေးတဲ့ Layer ဖြစ်ပါတယ်။
-
-ဥပမာ...
-
-Login လုပ်မယ်ဆိုရင်
-
-ဒီ Layer က
-
-* Username ရှိလား
-* Password မှန်လား
-* Account Lock ဖြစ်နေလား
-* User Active ဖြစ်လား
-* Login လုပ်ခွင့်ရှိလား
-
-ဆိုတာတွေကို စစ်ပေးပါတယ်။
-
-Database ထဲက Data လိုရင်တော့ DAL ကို ခေါ်ပါတယ်။
-
----
-
-## Business Layer ရဲ့တာဝန်
-
-* Validation
-* Business Rules
-* Calculation
-* Workflow
-* Authorization
-* DAL ကိုခေါ်ပြီး Data ယူခြင်း
-
----
-
-# 3. Data Access Layer (DAL)
-
-ဒီ Layer က Database နဲ့ တိုက်ရိုက်အလုပ်လုပ်တဲ့ Layer ဖြစ်ပါတယ်။
-
-Business Layer က
-
-"User တစ်ယောက်ကိုရှာပေး"
-
-လို့ ပြောရင်
-
-DAL က
-
-SQL Server ထဲသွားပြီး
-
-Data ကိုယူလာပေးပါတယ်။
-
-ဒီ Layer မှာ
-
-* SQL
-* Entity Framework Core
-* Dapper
-* ADO.NET
-
-စတာတွေကို အသုံးပြုနိုင်ပါတယ်။
-
----
-
-## DAL ရဲ့တာဝန်
-
-* Insert
-* Update
-* Delete
-* Select
-* Database Connection
-* Transaction
-
----
-
-# Data Flow
-
-Application တစ်ခုမှာ Request တစ်ခု ဘယ်လိုစီးဆင်းလဲ?
+## Request Flow
 
 ```text
-User
- │
- ▼
-Presentation Layer
- │
- ▼
-Business Layer
- │
- ▼
-Data Access Layer
- │
- ▼
-Database
+Client
+  │
+  ▼
+Controller
+  │
+  ▼
+Service
+  │
+  ├── EF Core DbContext
+  └── Dapper
+         │
+         ▼
+      Database
 ```
 
-Database က Result ပြန်လာရင်
+Repository Layer မထည့်ပါဘူး။ Service က `DbContext` သို့မဟုတ် Dapper ကို တိုက်ရိုက်သုံးတာကြောင့် မလိုအပ်တဲ့ Pass-through Code နည်းပြီး Flow က ပိုရှင်းပါတယ်။
+
+## Project Structure
 
 ```text
-Database
- │
- ▲
-Data Access Layer
- │
- ▲
-Business Layer
- │
- ▲
-Presentation Layer
- │
- ▲
-User
+MyApp.Api
+└── Controllers
+
+MyApp.Business
+└── Services
+
+MyApp.Database
+├── Models
+├── AppDbContext.cs
+└── DapperContext.cs
 ```
 
-ဒီလို Layer အလိုက်သာ သွားလာပါတယ်။
+Project Dependency က အောက်ပါအတိုင်း ဖြစ်ပါတယ်။
 
-Presentation Layer က Database ကို တိုက်ရိုက်မခေါ်သင့်ပါဘူး။
+```text
+MyApp.Api → MyApp.Business → MyApp.Database
+```
 
----
+## Database Layer
 
-# Real World Example (Internet Banking)
+### EF Core Database First
 
-ဥပမာ...
+ရှိပြီးသား Database ကနေ `DbContext` နဲ့ Model တွေ Generate လုပ်ပါတယ်။
 
-Internet Banking မှာ Transfer Money လုပ်တယ်ဆိုပါစို့။
+```bash
+dotnet ef dbcontext scaffold "Name=ConnectionStrings:DefaultConnection" Microsoft.EntityFrameworkCore.SqlServer --context AppDbContext --context-dir . --output-dir Models
+```
 
-### Step 1
+Generate ဖြစ်လာတဲ့ `AppDbContext` နဲ့ Model တွေကို `MyApp.Database` Project ထဲမှာ ထားပါမယ်။
 
-User က
+### Dapper Context
 
-Transfer Button ကို နှိပ်တယ်။
+```csharp
+public class DapperContext
+{
+    private readonly string _connectionString;
 
-ဒါက Presentation Layer ဖြစ်ပါတယ်။
+    public DapperContext(IConfiguration configuration)
+    {
+        _connectionString = configuration.GetConnectionString(
+            "DefaultConnection");
+    }
 
----
+    public IDbConnection CreateConnection()
+    {
+        return new SqlConnection(_connectionString);
+    }
+}
+```
 
-### Step 2
+## Business Layer
 
-Business Layer က
+Service က Business Logic နဲ့ Database Call ကို တစ်နေရာတည်းမှာ ရှင်းရှင်းလင်းလင်း ရေးနိုင်ပါတယ်။
 
-* Sender Account ရှိလား
-* Receiver Account ရှိလား
-* Balance လုံလား
-* Daily Limit ကျော်လား
-* Account Freeze ဖြစ်နေလား
+```csharp
+public class ProductService : IProductService
+{
+    private readonly AppDbContext _dbContext;
+    private readonly DapperContext _dapperContext;
 
-ဆိုတာတွေ စစ်ပါတယ်။
+    public ProductService(
+        AppDbContext dbContext,
+        DapperContext dapperContext)
+    {
+        _dbContext = dbContext;
+        _dapperContext = dapperContext;
+    }
 
----
+    public async Task<Product> GetByIdAsync(int id)
+    {
+        return await _dbContext.Products
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
 
-### Step 3
+    public async Task<IEnumerable<ProductDto>> GetActiveAsync()
+    {
+        const string sql = @"
+            SELECT Id, Name, Price
+            FROM Products
+            WHERE IsActive = 1";
 
-Database ထဲက
+        using (IDbConnection connection =
+            _dapperContext.CreateConnection())
+        {
+            return await connection.QueryAsync<ProductDto>(sql);
+        }
+    }
+}
+```
 
-* Sender Balance
-* Receiver Account
-* Transaction History
+EF Core ကို Insert, Update နဲ့ ရိုးရှင်းတဲ့ Query တွေအတွက် သုံးနိုင်ပါတယ်။ Dapper ကို Complex Query နဲ့ Report တွေအတွက် သုံးနိုင်ပါတယ်။
 
-တွေကို DAL က သွားယူပါတယ်။
+## Presentation Layer
 
----
+Controller က Service ကိုပဲ ခေါ်ပါတယ်။ Database Code နဲ့ Business Logic မရေးပါဘူး။
 
-### Step 4
+```csharp
+public class ProductsController : ControllerBase
+{
+    private readonly IProductService _productService;
 
-Business Layer က
+    public ProductsController(IProductService productService)
+    {
+        _productService = productService;
+    }
 
-ငွေလွှဲလို့ရတယ်ဆိုရင်
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        Product product = await _productService.GetByIdAsync(id);
 
-DAL ကို
+        if (product == null)
+        {
+            return NotFound();
+        }
 
-* Sender Balance Update
-* Receiver Balance Update
-* Transaction Insert
+        return Ok(product);
+    }
+}
+```
 
-လုပ်ခိုင်းပါတယ်။
+## Dependency Injection
 
----
+```csharp
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
-### Step 5
+builder.Services.AddScoped<DapperContext>();
+builder.Services.AddScoped<IProductService, ProductService>();
+```
 
-Presentation Layer က
+## သတိထားရန်
 
-"Transfer Successful"
+- Controller ထဲမှာ Database Code မရေးပါနဲ့
+- Business Rule တွေကို Service ထဲမှာပဲ ထားပါ
+- Generated EF Core Model တွေကို Controller ထဲမှာ တိုက်ရိုက်မပြင်ပါနဲ့
+- Service ကြီးလာရင် Feature အလိုက် Service အသေးတွေ ခွဲပါ
 
-ဆိုတဲ့ Message ကို User ကိုပြပေးပါတယ်။
+## အကျဉ်းချုပ်
 
----
-
-# စားသောက်ဆိုင် ဥပမာ
-
-ဒီ Architecture ကို စားသောက်ဆိုင်နဲ့ နှိုင်းကြည့်ရင် ပိုနားလည်လွယ်ပါတယ်။
-
-### Customer
-
-ဟင်းမှာတယ်။
-
-↓
-
-### Waiter (Presentation Layer)
-
-Customer မှာတဲ့ Order ကိုယူတယ်။
-
-↓
-
-### Chef (Business Layer)
-
-ဟင်းချက်နည်းအတိုင်း ချက်တယ်။
-
-↓
-
-### Store Room (Data Access Layer)
-
-လိုအပ်တဲ့ အသား၊ ဟင်းသီးဟင်းရွက်၊ ဆီ၊ ဆားတွေကို သွားယူတယ်။
-
-↓
-
-### Chef
-
-ဟင်းချက်ပြီး
-
-↓
-
-### Waiter
-
-Customer ဆီ ပြန်ပို့တယ်။
-
-Customer က Store Room ထဲကို တိုက်ရိုက်သွားယူလို့ မရသလို Waiter ကလည်း Store Room ထဲဝင်ပြီး ပစ္စည်းယူတာထက် Chef ရဲ့ လုပ်ငန်းစဉ်အတိုင်း ဆောင်ရွက်တာက ပိုစနစ်ကျပါတယ်။ Software မှာလည်း Layer တစ်ခုက နောက်တစ်ခုကို ကျော်ပြီး မသွားသင့်ပါဘူး။
-
----
-
-# N-Layered Architecture ရဲ့ အားသာချက်များ
-
-* **Separation of Concerns** – Layer တစ်ခုစီမှာ သီးခြားတာဝန်ရှိတာကြောင့် Code ကို နားလည်ရလွယ်ပြီး Developer တွေ အလုပ်ခွဲလုပ်ရလည်း လွယ်ပါတယ်။
-* **Maintainability** – UI ပြောင်းချင်ရင် UI Layer ကိုပဲ ပြင်နိုင်ပြီး Business Logic ကို ထိစရာမလိုတဲ့ အခြေအနေတွေ များပါတယ်။
-* **Scalability** – Project ကြီးလာတဲ့အခါ Layer အသစ်တွေ ထပ်တိုးနိုင်ပြီး အစိတ်အပိုင်းလိုက် Scale လုပ်နိုင်ပါတယ်။
-* **Testability** – Business Logic ကို UI နဲ့ Database မပါဘဲ Unit Test ရေးနိုင်တာကြောင့် Testing လုပ်ရ ပိုလွယ်ပါတယ်။
-* **Reusability** – Business Logic နဲ့ Data Access ကို Application တစ်ခုထက်ပိုပြီး ပြန်လည်အသုံးပြုနိုင်ပါတယ်။
-
----
-
-# Summary
-
-N-Layered Architecture ဆိုတာ Application တစ်ခုကို **တာဝန်အလိုက် Layer (အလွှာ)** များခွဲပြီး တည်ဆောက်တဲ့ Software Architecture Pattern တစ်ခုဖြစ်ပါတယ်။
-
-Beginner Project တွေမှာတော့ **Presentation Layer → Business Logic Layer → Data Access Layer** ဆိုတဲ့ 3-Layered Architecture ကို အများဆုံးတွေ့ရပါတယ်။ Enterprise Project တွေမှာတော့ လိုအပ်ချက်အရ **Application Layer**, **Domain Layer**, **Infrastructure Layer**, **API Layer** စတဲ့ Layer တွေကို ထပ်မံခွဲထုတ်ပြီး ပိုမိုစနစ်ကျအောင် တည်ဆောက်ကြပါတယ်။
-
-အရေးကြီးဆုံးအချက်ကတော့ **Layer တစ်ခုချင်းစီမှာ ကိုယ်ပိုင်တာဝန်သာရှိပြီး၊ အလွှာတစ်ခုက နောက်တစ်ခုရဲ့ တာဝန်ကို မယူသင့်တာ** ဖြစ်ပါတယ်။ ဒီလိုတာဝန်ခွဲခြားထားခြင်းကြောင့် Code တွေကို ဖတ်ရှုနားလည်ရ လွယ်ကူလာသလို၊ ပြုပြင်ထိန်းသိမ်းခြင်း၊ Feature အသစ်ထည့်သွင်းခြင်းနဲ့ စနစ်ကို အနာဂတ်မှာ ချဲ့ထွင်ခြင်းတို့ကိုလည်း ပိုမိုလွယ်ကူစေပါတယ်။
+ဒီ Architecture မှာ **Controller → Service → Database** ဆိုတဲ့ ရိုးရှင်းတဲ့ Flow ကို သုံးပါတယ်။ Repository မထည့်ဘဲ Service က EF Core Database First နဲ့ Dapper ကို တိုက်ရိုက်သုံးတာကြောင့် Code Layer အဆင့်ဆင့် ထပ်မနေဘဲ ဖတ်ရလွယ်ပါတယ်။
