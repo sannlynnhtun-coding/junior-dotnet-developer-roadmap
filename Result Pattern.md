@@ -1,411 +1,140 @@
 # Result Pattern ဆိုတာဘာလဲ?
 
-အခုနောက်ပိုင်း ကျွန်တော်တို့ ရေးရတဲ့ **ASP.NET Core Web API Project** တွေတိုင်းမှာ မဖြစ်မနေ ထည့်သုံးဖြစ်တဲ့ Pattern တစ်ခုရှိပါတယ်။
-
-ဒါကတော့ **Result Pattern** ဖြစ်ပါတယ်။
-
-**Result Pattern** ဆိုတာကတော့ **Method** တစ်ခုကနေ ထွက်လာတဲ့ **ရလဒ် (Outcome)** ကို **Object** တစ်ခုတည်းနဲ့ ပြန်ပေးတဲ့ **Programming Design Pattern** တစ်ခု ဖြစ်ပါတယ်။
-
-ပုံမှန်အားဖြင့် Method တစ်ခုက
-
-* Data ကိုပဲ Return ပြန်ပေးတာ
-* `null` Return ပြန်ပေးတာ
-* Exception Throw လုပ်တာ
-
-လိုမျိုးလုပ်လေ့ရှိပါတယ်။
-
-ဒါပေမယ့် Result Pattern ကို သုံးတဲ့အခါ
-
-Method က
-
-* အောင်မြင်လား
-* မအောင်မြင်ဘူးလား
-* Data ရှိလား
-* Error Message ဘာလဲ
-* Error Type ဘာလဲ
-
-ဆိုတာတွေကို **Result Object** တစ်ခုထဲမှာ စုစည်းပြီး Return ပြန်ပေးပါတယ်။
-
----
-
-# ASP.NET Core Web API မှာ ဘယ်နေရာမှာ သုံးလဲ?
-
-ဥပမာ...
-
-Product API တစ်ခုရှိတယ်ဆိုပါစို့။
-
-```
-GET /api/products/100
-```
-
-User က Product တစ်ခုကို Request လုပ်လိုက်တယ်။
-
-ဒီ Request က
-
-```text
-Client
-   │
-   ▼
-ProductsController
-   │
-   ▼
-ProductService
-   │
-   ▼
-ProductRepository
-   │
-   ▼
-SQL Server
-```
-
-ဒီ Flow အတိုင်း သွားပါတယ်။
-
-ဒီမှာ **Result Pattern** ကို အများအားဖြင့်
-
-✅ Service Layer (Business Layer)
-
-မှာ Return ပြန်ပေးလေ့ရှိပါတယ်။
-
----
-
-# N-Layered Architecture မှာ Result Pattern
-
-```text
-Presentation Layer
-        │
-        ▼
- ProductsController
-        │
-        ▼
- Business Layer
- ProductService
-        │
-        ▼
- Result<ProductDto>
-        │
-        ▼
- Data Access Layer
- ProductRepository
-        │
-        ▼
- SQL Server
-```
-
-ဒီ Architecture မှာ
-
-Controller က Database ကို မသွားပါဘူး။
-
-Repository က HTTP Response ကို မပြန်ပါဘူး။
-
-Service က Business Logic တွက်ပြီး
-
-Result Object ကို ပြန်ပေးပါတယ်။
-
----
-
-# Real World Example
-
-ဥပမာ
-
-Customer က
-
-```
-GET /api/products/10
-```
-
-ကို Request လုပ်လိုက်တယ်။
-
----
-
-## Step 1
-
-Controller က
-
-```csharp
-var result = await _productService.GetByIdAsync(id);
-```
-
-လို့ Service ကိုခေါ်ပါတယ်။
-
-Controller က Database မသွားပါဘူး။
-
----
-
-## Step 2
-
-Service က
-
-Repository ကိုခေါ်ပြီး
-
-Database ထဲမှာ Product ရှိမရှိ သွားစစ်ပါတယ်။
-
-```text
-Controller
-      │
-      ▼
-ProductService
-      │
-      ▼
-ProductRepository
-      │
-      ▼
-Database
-```
-
----
-
-## Step 3
-
-Database မှာ
-
-Product မရှိဘူးဆိုရင်
-
-Service က
-
-Exception Throw မလုပ်ပါဘူး။
-
-`null` လည်း Return မလုပ်ပါဘူး။
-
-အဲ့ဒီအစား
-
-```csharp
-return Result<ProductDto>.NotFoundError(
-    "Product not found."
-);
-```
-
-ကို Return ပြန်ပေးပါတယ်။
-
----
-
-## Step 4
-
-Controller က Result ကိုကြည့်ပြီး
-
-```csharp
-if(result.IsNotFound)
-{
-    return NotFound(result);
-}
-```
-
-HTTP 404 ကို ပြန်ပေးလိုက်ပါတယ်။
-
----
-
-# Result Pattern မသုံးရင်
-
-ဥပမာ
-
-```csharp
-public Product GetById(int id)
-```
-
-ဒီ Method ဆိုရင်
-
-Product မရှိတဲ့အခါ
-
-ဘာပြန်လာမလဲ?
-
-```csharp
-null
-```
-
-လား
-
-```csharp
-throw Exception();
-```
-
-လား
-
-Developer က Code ထဲဝင်ကြည့်မှ သိရပါတယ်။
-
----
-
-# Result Pattern သုံးရင်
-
-Method Signature ကိုကြည့်တာနဲ့
-
-```csharp
-public Result<ProductDto> GetByIdAsync(int id)
-```
-
-ဒီ Method က
-
-Product ပြန်ပေးနိုင်တယ်။
-
-ဒါပေမယ့်
-
-Error လည်း ဖြစ်နိုင်တယ်ဆိုတာ
-
-Signature ကိုကြည့်တာနဲ့ သိနိုင်ပါတယ်။
-
----
-
-# Example 1 - Success
-
-Database မှာ Product ရှိတယ်။
-
-Service က
-
-```csharp
-return Result<ProductDto>.Success(product);
-```
-
-Controller က
-
-```csharp
-return Ok(result);
-```
-
-Client ရမယ့် Response
-
-```json
-{
-  "isSuccess": true,
-  "message": "Success",
-  "data": {
-    "id": 1,
-    "name": "iPhone 17"
-  }
-}
-```
-
----
-
-# Example 2 - Not Found
-
-Database ထဲမှာ Product မရှိဘူး။
-
-Service
-
-```csharp
-return Result<ProductDto>.NotFoundError(
-    "Product not found."
-);
-```
-
-Controller
-
-```csharp
-return NotFound(result);
-```
-
-Client
-
-```json
-{
-  "isSuccess": false,
-  "message": "Product not found."
-}
-```
-
----
-
-# Example 3 - Validation Error
-
-User က
-
-```json
-{
-    "price": -100
-}
-```
-
-ပို့လိုက်တယ်။
-
-Service က
-
-```csharp
-return Result<ProductDto>.ValidationError(
-    "Price must be greater than zero."
-);
-```
-
-Controller
-
-```csharp
-return BadRequest(result);
-```
-
-Client
-
-```json
-{
-  "isSuccess": false,
-  "message": "Price must be greater than zero."
-}
-```
-
----
-
-# Result Pattern ရဲ့ အားသာချက်များ
-
-### 1. Error Handling ပိုရှင်းတယ်
-
-Exception Throw လုပ်တာထက်
-
-```csharp
-if(result.IsSuccess)
-```
-
-နဲ့စစ်ရုံပဲ။
-
----
-
-### 2. Method Signature ကြည့်တာနဲ့ နားလည်တယ်
+**Result Pattern** ဆိုတာ Method တစ်ခုရဲ့ အောင်မြင်မှု၊ Data နဲ့ Error ကို Object တစ်ခုတည်းနဲ့ ပြန်ပေးတဲ့ Pattern ဖြစ်ပါတယ်။
 
 ```csharp
 Result<ProductDto>
 ```
 
-ဆိုတာနဲ့
+ဒီ Return Type ကိုကြည့်တာနဲ့ Method က Product Data သို့မဟုတ် Error ပြန်ပေးနိုင်တယ်ဆိုတာ သိနိုင်ပါတယ်။
 
-Success လည်း ဖြစ်နိုင်တယ်
+## ဘာကြောင့်သုံးတာလဲ?
 
-Error လည်း ဖြစ်နိုင်တယ်ဆိုတာ သိတယ်။
+- `null` ပြန်လာတဲ့ အကြောင်းရင်းကို ရှင်းရှင်းလင်းလင်း သိနိုင်တယ်
+- Validation နဲ့ Not Found လို Business Error တွေအတွက် Exception မလိုဘူး
+- Service က Business Result ပြန်ပြီး Controller က HTTP Status Code သတ်မှတ်နိုင်တယ်
 
----
-
-### 3. Null Return မလုပ်တော့ဘူး
-
-```csharp
-return null;
-```
-
-မရှိတော့ဘူး။
-
-အဲ့အစား
+## Result Class
 
 ```csharp
-return Result<Product>.NotFoundError();
+public enum ErrorType
+{
+    None,
+    Validation,
+    NotFound,
+    Conflict
+}
+
+public class Result<T>
+{
+    public bool IsSuccess { get; private set; }
+    public T Data { get; private set; }
+    public string ErrorMessage { get; private set; }
+    public ErrorType ErrorType { get; private set; }
+
+    private Result(
+        bool isSuccess,
+        T data,
+        string errorMessage,
+        ErrorType errorType)
+    {
+        IsSuccess = isSuccess;
+        Data = data;
+        ErrorMessage = errorMessage;
+        ErrorType = errorType;
+    }
+
+    public static Result<T> Success(T data)
+    {
+        return new Result<T>(
+            true,
+            data,
+            string.Empty,
+            ErrorType.None);
+    }
+
+    public static Result<T> Failure(
+        string errorMessage,
+        ErrorType errorType)
+    {
+        return new Result<T>(
+            false,
+            default(T),
+            errorMessage,
+            errorType);
+    }
+}
 ```
 
-ကို ပြန်ပေးတယ်။
+## Service မှာသုံးမယ်
 
----
+```csharp
+public class ProductService
+{
+    private readonly IProductRepository _repository;
 
-### 4. Exception နည်းသွားတယ်
+    public ProductService(IProductRepository repository)
+    {
+        _repository = repository;
+    }
 
-Business Error တွေအတွက်
+    public async Task<Result<ProductDto>> GetByIdAsync(int id)
+    {
+        var product = await _repository.GetByIdAsync(id);
 
-Exception Throw မလုပ်တော့ဘူး။
+        if (product == null)
+        {
+            return Result<ProductDto>.Failure(
+                "Product not found.",
+                ErrorType.NotFound);
+        }
 
-Exception ကို
+        var productDto = new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name
+        };
 
-* SQL Connection Fail
-* File Not Found
-* Network Error
+        return Result<ProductDto>.Success(productDto);
+    }
+}
+```
 
-လိုမျိုး **System Error** တွေအတွက်ပဲ အသုံးပြုသင့်ပါတယ်။
+Service က HTTP Status Code မပြန်ဘဲ Business Result ကိုပဲ ပြန်ပေးပါတယ်။
 
-Business Rule Error တွေ (ဥပမာ `NotFound`, `DuplicateRecord`, `ValidationError`) ကိုတော့ `Result<T>` နဲ့ ပြန်ပေးတာက ပိုသင့်တော်ပါတယ်။
+## Controller မှာသုံးမယ်
 
----
+```csharp
+[HttpGet("{id}")]
+public async Task<IActionResult> GetById(int id)
+{
+    var result = await _productService.GetByIdAsync(id);
 
-# Summary
+    if (result.IsSuccess)
+    {
+        return Ok(result.Data);
+    }
 
-**Result Pattern** ဆိုတာ Method တစ်ခုရဲ့ **အောင်မြင်ခြင်း/မအောင်မြင်ခြင်း**, **Data**, **Error Message**, **Error Type** တွေကို `Result<T>` Object တစ်ခုတည်းနဲ့ ပြန်ပေးတဲ့ Design Pattern တစ်ခုဖြစ်ပါတယ်။
+    if (result.ErrorType == ErrorType.NotFound)
+    {
+        return NotFound(result.ErrorMessage);
+    }
 
-**ASP.NET Core Web API + N-Layered Architecture** မှာတော့ `Result<T>` ကို **Business Layer (Service Layer)** က Return ပြန်ပေးပြီး၊ **Presentation Layer (Controller)** က အဲ့ဒီ Result ကိုကြည့်ပြီး သင့်တော်တဲ့ **HTTP Status Code (200, 400, 404, 500)** အဖြစ် Client ကို ပြန်ပေးလေ့ရှိပါတယ်။ ဒီလိုခွဲထားခြင်းကြောင့် Business Logic နဲ့ HTTP Response Logic တို့ကို သီးခြားစီ ထိန်းသိမ်းနိုင်ပြီး Code က ပိုမိုရှင်းလင်း၊ စနစ်ကျပြီး Maintain လုပ်ရလည်း လွယ်ကူလာပါတယ်။
+    return BadRequest(result.ErrorMessage);
+}
+```
+
+## ဘယ်အချိန်သုံးမလဲ?
+
+Result Pattern ကို ခန့်မှန်းနိုင်တဲ့ Business Error တွေအတွက် သုံးပါ။
+
+- Validation Error
+- Record မတွေ့ခြင်း
+- Duplicate Record
+- Business Rule မကိုက်ညီခြင်း
+
+Database Connection ပျက်ခြင်း၊ Network Error နဲ့ Programming Bug လို မမျှော်လင့်ထားတဲ့ System Error တွေအတွက်တော့ Exception ကို သုံးပါ။
+
+## အကျဉ်းချုပ်
+
+`Result<T>` က Success Data သို့မဟုတ် Error Detail ကို တိတိကျကျ ပြန်ပေးပါတယ်။ Service က `Result<T>` ပြန်ပြီး Controller က အဲဒီ Result ကို `200`, `400`, `404` စတဲ့ HTTP Status Code အဖြစ် ပြောင်းပေးပါတယ်။
